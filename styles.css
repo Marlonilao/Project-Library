@@ -28,3 +28,9 @@ body {
     width: 80%;
 
 }
+
+dialog {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+}   
