@@ -12,8 +12,9 @@ function Book(title, author, pages, read){
 function addBookToLibrary(title, author, pages, read) {
     const newBook = new Book(title, author, pages, read);
     myLibrary.push(newBook);
-
-    // displayBook.call(newBook);
+    displayBook(newBook);
+    addRemoveButton(newBook)
+    changeStatus(newBook);
 }
 
 const main = document.querySelector('.main');
@@ -25,96 +26,53 @@ const inputAuthor = document.querySelector('input[name="author"]');
 const inputPages = document.querySelector('input[name="pages"]');
 // const inputStatus = document.querySelector('input[name="status"]');
 
-// function displayBook(){
-//     const div = document.createElement('div');
-//     main.appendChild(div);
-//     const title = document.createElement('p');
-//     title.textContent = `Title: ${this.title}`; 
-//     div.appendChild(title); 
-//     const author = document.createElement('p');
-//     author.textContent = `Author: ${this.author}`;
-//     div.appendChild(author);
-//     const pages = document.createElement('p');
-//     pages.textContent = `Pages; ${this.pages}`;
-//     div.appendChild(pages);
-//     const status = document.querySelector('p');
-//     status.textContent = `Status: ${this.status}`;
-//     div.appendChild(status);
 
-//     const removeButton = document.createElement('button');
-//     removeButton.textContent = 'Remove';
-//     removeButton.addEventListener('click', ()=>{
-//         main.removeChild(div);
-//     })
-// }
+function displayBook(book) {
+    let div = document.createElement('div');
+    div.setAttribute('data-id', `${book.id}`);
+    div.innerHTML = 
+    `<div>Title: ${book.title}</div>
+    <div>Author: ${book.author}</div>
+    <div>Pages: ${book.pages}</div>`
+    let divStatus = document.createElement('div');
+    divStatus.classList.add('status')
+    divStatus.innerText = `Status: ${book.status}`
+    div.appendChild(divStatus);
 
-function displayBook() {
-    main.textContent = ''
-    for (let i = 0; i<myLibrary.length; i++) {
-        const div = document.createElement('div');
-        div.setAttribute("data-id",`${myLibrary[i].id}`)
-        main.appendChild(div);
-        div.innerHTML = 
-        `<div>Title:${myLibrary[i].title}</div>
-        <div>Author:${myLibrary[i].author}</div>
-        <div>Pages:${myLibrary[i].pages}</div>`
-        const divStatus = document.createElement('div');
-        divStatus.textContent = `Status:${myLibrary[i].status}`
-        div.appendChild(divStatus);
-        const removeButton = document.createElement('button');
-        removeButton.textContent = 'Remove';
-        div.appendChild(removeButton);
+    main.appendChild(div);
+}
 
-        removeButton.addEventListener('click', () => {
-            const index = myLibrary.indexOf(myLibrary[i])
-            if (index > -1) { // only splice array when item is found
-                myLibrary.splice(index, 1); // 2nd parameter means remove one item only
-              }
-            // removed = myLibrary[i]
-            // myLibrary = myLibrary.filter(item => item !== removed)
-            main.removeChild(div);
-        }) 
+function addRemoveButton(book) {
+    let removeDiv = document.querySelector(`div[data-id="${book.id}"]`)
+    let button = document.createElement('button');
+    button.innerText = 'Remove';
+    removeDiv.appendChild(button);
+    button.addEventListener('click', e => {
+    removeDiv.remove();
+    const index = myLibrary.indexOf(book);
+    myLibrary.splice(index, 1);
+    })
+}
+
+Book.prototype.toggleRead = function() {
+    if (this.status == 'Read') {
+        this.status = 'Not Read';
+    } else {
+        this.status = 'Read';
     }
 }
 
-
-// function displayBook(){
-//     if (myLibrary.length > 1) {
-//         const div = document.createElement('div');
-//         main.appendChild(div);
-//         div.innerHTML = 
-//         `<div>Title:${myLibrary[myLibrary.length - 1].title}</div>
-//         <div>Author:${myLibrary[myLibrary.length - 1].author}</div>
-//         <div>Pages:${myLibrary[myLibrary.length - 1].pages}</div>`
-//         const divStatus = document.createElement('div');
-//         divStatus.textContent = `Status:${myLibrary[myLibrary.length -1].status}`
-//         div.appendChild(divStatus);
-//         const removeButton = document.createElement('button');
-//         removeButton.textContent = 'Remove';
-//         div.appendChild(removeButton);
-
-//         removeButton.addEventListener('click', e => {
-//             main.removeChild(div);
-//         })
-//     } else {
-//         const div = document.createElement('div');
-//         main.appendChild(div);
-//         div.innerHTML = 
-//         `<div>Title:${myLibrary[0].title}</div>
-//         <div>Author:${myLibrary[0].author}</div>
-//         <div>Pages:${myLibrary[0].pages}</div>`
-//         const divStatus = document.createElement('div');
-//         divStatus.textContent = `Status:${myLibrary[0].status}`
-//         div.appendChild(divStatus);
-//         const removeButton = document.createElement('button');
-//         removeButton.textContent = 'Remove';
-//         div.appendChild(removeButton);
-
-//         removeButton.addEventListener('click', e => {
-//             main.removeChild(div);
-//         }) 
-//     }
-// }
+function changeStatus(book){
+    let div = document.querySelector(`div[data-id="${book.id}"]`);
+    let statusDiv = document.querySelector(`div[data-id="${book.id}"] > .status`);
+    let changeStatus = document.createElement('button');
+    changeStatus.innerText = 'Read/Not Read';
+    div.appendChild(changeStatus);
+    changeStatus.addEventListener('click', ()=>{
+        book.toggleRead();
+        statusDiv.innerText = `Status: ${book.status}`;
+    })
+}
 
 addButton.addEventListener('click', (e) => {
     dialog.showModal();
@@ -128,7 +86,6 @@ closeButton.addEventListener('click', e => {
     const status = document.querySelector('input[name="status"]:checked').value;
     addBookToLibrary(title, author, pages, status);
     dialog.close();
-    displayBook();
     document.querySelector('dialog form').reset();
 })
 
