@@ -7,7 +7,7 @@ body {
     height: 100vh;
     background-color: #E8E4C9;
     color: #3B2F2F;
-
+}
 .header {
     display: flex;
     justify-content: space-around;
