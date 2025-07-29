@@ -1,61 +1,97 @@
 * {
-    padding: 0px;
-    margin: 0px;
-    box-sizing: border-box;
+  padding: 0px;
+  margin: 0px;
+  box-sizing: border-box;
 }
 body {
-    height: 100vh;
-    background-color: #E8E4C9;
-    color: #3B2F2F;
+  height: 100vh;
+  background-color: #e8e4c9;
+  color: #3b2f2f;
 }
 .header {
-    display: flex;
-    justify-content: space-around;
-    border-bottom: 1px solid black;
-    padding: 50px;
+  display: flex;
+  justify-content: space-around;
+  border-bottom: 1px solid black;
+  padding: 50px;
 }
 
 .main {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-auto-flow: row;
-    justify-items: center;
-    gap: 16px;
-    margin-top: 16px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-flow: row;
+  justify-items: center;
+  gap: 16px;
+  margin-top: 16px;
 }
 
 .main > div {
-    border: 1px solid black;
-    width: 80%;
-
+  border: 1px solid black;
+  width: 80%;
 }
 
 dialog {
-    position: absolute;
-    top: 30%;
-    left: 50%;
-    padding: 16px;
+  position: absolute;
+  top: 30%;
+  left: 45%;
+  padding: 30px 16px;
 }
 
 dialog div {
-    margin-bottom: 8px;
+  margin-bottom: 8px;
 }
 
 dialog label {
-    display: inline-block;
-    width: 65px;
+  display: inline-block;
+  width: 65px;
+  text-align: right;
 }
 
-button {
-    padding: 8px;
+dialog button {
+  display: block;
+  padding: 8px;
+  margin: 8px auto 0;
+}
+
+#closeDialog {
+  cursor: pointer;
+  position: absolute;
+  left: 90%;
+  bottom: 90%;
 }
 
 .main > div {
-    padding: 8px;
-    width: 300px;
-    font-size: xx-large;
+  padding: 8px;
+  width: 300px;
+  font-size: xx-large;
 }
 
 .main button {
-    margin-right: 16px;
+  margin-right: 16px;
+}
+
+fieldset label {
+  width: auto;
+}
+
+fieldset > div {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+input:user-invalid + label {
+  color: red;
+}
+
+input[type='text'],
+input[type='number'] {
+  width: 150px;
+}
+
+.error {
+  color: red;
+}
+
+div:has(input:user-invalid) label {
+  color: red;
 }
